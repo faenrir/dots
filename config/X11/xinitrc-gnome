@@ -1,0 +1,15 @@
+#!/bin/sh
+# X11 read this file in startup
+
+# Load and merge the resources file
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+
+# Keyboard adjustment
+# setxkbmap -option caps:swapescape
+#sudo intel-undervolt apply
+# Execute wm
+(sleep 2 && xinput --set-prop "DELL097D:00 04F3:311C Touchpad" 354 1) &
+pipewire &
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
+exec gnome-session

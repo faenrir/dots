@@ -1,0 +1,7 @@
+prefix=${HOME}/.local/share/npm
+init.author.name=Fabian Baldeau
+init.author.email=fabian.baldeau@protonmail.com
+init.version=0.0.1
+loglevel=silent
+timeout=9000000
+prefer-offline=true

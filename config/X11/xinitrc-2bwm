@@ -1,0 +1,39 @@
+#!/bin/sh
+
+export WM_CHOICE="2bwm"
+export _JAVA_AWT_WM_NONREPARENTING=1
+# Load and merge the resources file
+[[ -f ~/.Xresources ]] && xrdb -merge -I $HOME ~/.Xresources
+
+sudo tlp start
+mons -s
+xcalib ~/.config/icc/xps9500fhd.icm
+xsettingsd &
+rm ~/.local/bin/wm/snap-safe
+touch ~/.local/bin/wm/snap-safe
+#echo '1' > ~/.local/bin/wm/currentWs
+libinput-gestures-setup restart
+brillo -I
+sudo intel-undervolt apply
+sudo intel_gpu_frequency -i
+sudo pstate-frequency -S -m 72
+sudo mount /dev/nvme1n1p1 /mnt/luna
+wmname LG3D
+xset s off -dpms
+setbg
+#wallpaperService &
+#hsetroot -solid "#3d3f51"
+#xsetroot -bitmap ~/.local/share/backgrounds/bitmap-walls/bw-bgnd/cyber_tile.xbm -bg "#191724" -fg "#3d3f51"
+#hsetroot -tile ~/.local/share/backgrounds/tilingGengar2.png
+#nautilus --gapplication-service
+udiskie &
+barSwitch.sh &
+picomSwitch &
+numlockx &
+#hhpc -i 4 &
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
+#pipewire &
+start-pulseaudio-x11 &
+xsetroot -cursor_name left_ptr &
+exec dbus-run-session -- 2bwm
