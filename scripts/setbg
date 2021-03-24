@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Location of link to wallpaper link.
+bgloc="${XDG_DATA_HOME:-$HOME/.local/share/}/bg"
+
+[ -f "$1" ] && ln -sf "$(readlink -f "$1")" "$bgloc" && notify-send -i "$bgloc" "Changing wallpaper..."
+
+[ -d "$1" ] && ln -sf "$(find "$(readlink -f "$1")" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)" "$bgloc" && notify-send -i "$bgloc" "Random Wallpaper chosen."
+
+
+hsetroot -cover "$bgloc"
+
+# if you use the dynamic wallpaper:
+
+#hour=$(printf '%(%H)T\n' "-1")
+
+#if [ $hour -ge 0 -a $hour -le 3 ] || [ $hour -ge 20 ]; then
+	#hsetroot -cover ~/.local/share/backgrounds/dynamic/night.jpg
+#elif [ $hour -ge 4 -a $hour -le 7 ]; then
+	#hsetroot -cover ~/.local/share/backgrounds/dynamic/sunrise.jpg
+#elif [ $hour -ge 8 -a $hour -le 11 ]; then
+	#hsetroot -cover ~/.local/share/backgrounds/dynamic/morning.jpg
+#elif [ $hour -ge 12 -a $hour -le 15 ]; then
+	#hsetroot -cover ~/.local/share/backgrounds/dynamic/day.jpg
+#elif [ $hour -ge 16 -a $hour -le 17 ]; then
+	#hsetroot -cover ~/.local/share/backgrounds/dynamic/afternoon.jpg
+#elif [ $hour -ge 18 -a $hour -le 19 ]; then
+	#hsetroot -cover ~/.local/share/backgrounds/dynamic/evening.jpg
+#fi

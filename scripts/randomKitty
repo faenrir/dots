@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+EMOJIS=(😺 😸 😹 😻 😼 😽 🙀 😿 😾)
+
+# selects a random element from the EMOJIS set
+SELECTED_EMOJI=${EMOJIS[$RANDOM % ${#EMOJIS[@]}]};
+
+echo $SELECTED_EMOJI

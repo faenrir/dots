@@ -1,0 +1,268 @@
+#!/usr/bin/env bash
+
+#
+# A simple block-style bar using lemonbar
+# and named pipes to reduce resource footprint
+#
+# needs a custom version of lemonbar!
+# -> https://github.com/faenrir/samu-bar
+#
+# and don't forget to install the required fonts!
+# -> listed in this config
+
+# colors
+BBG=#080808
+BBG2=#44475a
+BFG=#1d1e26
+WHT=#f8f8f2
+PNK=#ff79c6
+REDD=#cc4444
+RED2="#ff9c9c"
+REDDRK=#662222
+
+HIRED="%{F$REDDRK}%{B$REDD}"
+HIWHT="%{F$WHT}%{B$BBG2}"
+
+prideDRK="#3a364d"
+prideIn="#a26f6c"
+pride0="#ff9c9c"
+pride1="#ffc986"
+pride2="#feff88"
+pride3="#aaff96"
+pride4="#a0acff"
+pride5="#ddb0f4"
+
+# Sleep constants
+BATTERY_SLEEP=10
+WIRELESS_SLEEP=10
+VOLUME_SLEEP=1
+DATE_SLEEP=5
+MPC_SLEEP=10
+MEMORY_SLEEP=10
+# QUOTE_SLEEP=600
+MAIL_SLEEP=120
+
+# Formatting Strings
+SEP=" "
+SEP2="%{B$BBG} "
+CLR="${SEP}%{B-}${F-}"
+BATCMD="acpi"
+
+# buttons
+LOGO="%{A:rofi-launcher &:}%{F$WHT} ${SEP}${SEP2}%{A}"
+POWER="%{F$BFG}%{B$pride4} ${SEP}"
+
+# bar config
+screenWidth="$(expr $(wattr w $(lsw -r)) - 8)x20+0+0"
+FONTS="-f "SFMonoPowerline:size=10" -f "SFMonoPowerline:size=10" -f "IosevkaNerdFontMono:size=10" -f "NotoSansMonoCJKJP:size=9" -f "NotoEmojiNerdFont:size=10""
+
+#MAIL_ADDRESS='https\://elearning.hochschule-rhein-waal.de/webmail/'
+
+PANEL_FIFO=/tmp/panel-fifo
+OPTIONS="-a 15 -d ${FONTS} -B ${BBG} -F ${BFG} -r 4 -R ${BBG} -g $screenWidth" 
+
+[ -e "${PANEL_FIFO}" ] && rm "${PANEL_FIFO}"
+mkfifo "${PANEL_FIFO}"
+
+clock() 
+{
+    while true; do
+        local clock=$(printf '%(%a %d. %b %H:%M)T\n' "-1")
+	echo "CLOCK %{A:notify-send -t 4000 'launching ikhal...' && kitty -e ikhal &:}%{F$WHT}${clock}${CLR}%{A}"
+
+	[[ "$screenWidth" != "$(expr $(wattr w $(lsw -r)) - 8)x20+0+0" ]] && {
+		move_windows.sh
+		if pgrep -x "picom" &>/dev/null; then
+			setbg
+		fi
+
+		(sleep 1; barSwitch.sh & (sleep 1; barSwitch.sh))
+	}
+
+        sleep ${DATE_SLEEP}
+    done
+}
+
+clock > "${PANEL_FIFO}" &
+
+# quote() 
+# {
+#     while true; do
+#         local quote="$(fortune -n 80 -s linux)"
+# 	echo "QUOTE %{F$WHT}${quote}${CLR}"
+
+#         sleep ${QUOTE_SLEEP}
+#     done
+# }
+
+# quote > "${PANEL_FIFO}" &
+
+volume()
+{
+    while true; do
+	local vol="$(pamixer --get-volume)"
+	local mut=$(pamixer --get-mute)
+
+        if [[ ${mut} = "true" ]]; then
+            label="${HIRED}${SEP}${SEP}"
+        elif [[ "$vol" -lt 60 ]]; then
+            label="%{B$pride3}%{F$BFG}${SEP}${SEP}"
+        else
+            label="%{B$pride3}%{F$BFG}${SEP}${SEP}"
+        fi
+
+	if [[ ${mut} = "false" ]]; then
+		echo "VOLUME ${HIWHT}%{A:notify-send -t 2000 'launching sound control...' && kitty -e pulsemixer &:}${label}$vol%{A}"
+	else
+		echo "VOLUME ${HIWHT}%{A:notify-send -t 2000 'launching sound control...' && kitty -e pulsemixer &:}${label}$vol%{A}"
+	fi
+
+        sleep ${VOLUME_SLEEP} 
+    done
+}
+
+volume > "${PANEL_FIFO}" &
+
+battery()
+{
+    while true; do
+        local cap="$(cat /sys/class/power_supply/BAT0/capacity)"
+
+	if [ $cap -le "10" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥         "
+	elif [ $cap -le "20" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥        "
+	elif [ $cap -le "30" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥       "
+	elif [ $cap -le "40" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥ ♥      "
+	elif [ $cap -le "50" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥ ♥ ♥     "
+	elif [ $cap -le "60" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥ ♥ ♥ ♥    "
+        elif [ $cap -le "70" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥ ♥ ♥ ♥ ♥   "
+        elif [ $cap -le "80" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥  "
+	elif [ $cap -le "90" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ "
+	elif [ $cap -le "100" ]
+	then
+		echo "BATTERY %{B$pride5}%{F$BFG} ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥"
+	fi
+
+        sleep ${BATTERY_SLEEP}
+    done
+}
+
+battery > "${PANEL_FIFO}" &
+
+wireless() 
+{
+    while true; do
+        local wifi=$(iwgetid -r)
+
+        if [[ -z $wifi ]]; then
+            local wifi="%{B$pride2}%{F$BFG}${SEP}${SEP}DISCONNECTED"
+            echo "WIRELESS ${HIWHT}%{A:notify-send -t 2000 'launching network manager...' && kitty -e nmtui &:}${wifi}%{A}"
+        else
+            echo "WIRELESS ${HIWHT}%{A:notify-send -t 2000 'launching network manager...' && kitty -e nmtui &:}%{B$pride2}%{F$BFG}${SEP}${SEP}${wifi}%{A}"
+        fi
+
+        sleep ${WIRELESS_SLEEP}
+    done
+}
+
+wireless > "${PANEL_FIFO}" &
+
+memory() {
+	while true; do
+		while IFS=':k '  read -r key val _; do
+			case $key in
+				# See kernel commit 34e431b0ae398fc54ea69ff85ec700722c9da773
+				(MemAvailable)
+				local mem_avail=$(( $val / 1024 ))
+				;;
+		esac
+	        done < /proc/meminfo
+		echo "MEMORY ${HIWHT}%{A:notify-send -t 2000 'launching htop...' && kitty -e sudo htop &:}%{B$pride1}%{F$BFG}${SEP}${SEP}${mem_avail} MiB%{A}"
+		sleep ${MEMORY_SLEEP}
+	done
+}
+
+memory > "${PANEL_FIFO}" &
+
+mail() {
+	while true; do
+	    # mailcheck = small python script for imap
+		newMails=$(mailcheck)
+		if [[ $newMails -gt 0 ]]; then
+			echo "MAIL %{A:notify-send -t 2000 'loading mails...' && evolution &:}%{B$pride0}%{F$BFG}${SEP}${SEP}${newMails}%{A}"
+		else
+			echo "MAIL %{A:notify-send -t 2000 'loading mails...' && evolution &:}%{B$pride0}%{F$BFG}${SEP}${SEP}0%{A}"
+		fi
+		sleep ${MAIL_SLEEP}
+	done
+}
+
+mail > "${PANEL_FIFO}" &
+
+music() {
+	while true; do
+		#mpc
+		#local title=$(mpc -f %title% current)
+		#cmus
+		local artist=$(cmus-remote -C status | grep " artist " | cut -c 12-)
+		local title=$(cmus-remote -C status | grep title | cut -c 10-)
+		if [[ $title == '' ]]; then
+			echo "MUSIC "
+		else
+			echo "MUSIC %{F$PNK}%{F$WHT} $artist - $title"
+		fi
+		sleep ${MPC_SLEEP}
+	done
+}
+
+music > "${PANEL_FIFO}" &
+
+while read -r line; do
+    case $line in
+        CLOCK*)
+            fn_time="${line#CLOCK }"
+            ;;
+        VOLUME*)
+            fn_vol="${line#VOLUME }"
+            ;;
+	BATTERY*)
+            fn_bat="${line#BATTERY }"
+            ;;
+        WIRELESS*)
+            fn_wire="${line#WIRELESS }"
+            ;;
+	MEMORY*)
+	    fn_mem="${line#MEMORY }"
+	    ;;
+	MAIL*)
+            fn_mail="${line#MAIL }"
+	    ;;
+	MUSIC*)
+            fn_music="${line#MUSIC }"
+	    ;;
+	WORKSPACE*)
+	    fn_workspace="${line#WORKSPACE }"
+	    ;;
+       #QUOTE*)
+       #    fn_quote="${line#QUOTE }"
+       #    ;;
+    esac
+    printf "%s\n" "%{S0}%{A:rofi-launcher &:}${LOGO}%{A}${fn_workspace}${SEP}%{A:cmus-remote -u &:}${fn_music}%{A}%{l}%{c}${fn_time}%{r}%{A:notify-send -t 2000 'git gud!' && brave-browser-stable 'http\://gitlab.fritz.box\:3000/explore/repos' &:}%{B$prideDRK}%{F$WHT}${SEP}${SEP}%{A}${SEP2}%{A:notify-send -t 2000 'Loading kanban board...' && brave-browser-stable 'http\://gitlab.fritz.box\:3060/' &:}%{B$prideIn}%{F$BFG}${SEP}${SEP}${SEP2}%{A}${fn_mail}${SEP}${SEP2}${fn_mem}${SEP}${SEP2}${fn_wire}${SEP}${SEP2}${fn_vol}${SEP}${SEP2}%{A:rofiMenuPower.sh &:}${POWER}%{A}${SEP2}%{A:bat-notify &:}${fn_bat}%{A}${SEP}%{B$BBG}"
+done < "${PANEL_FIFO}" | lemonbar ${OPTIONS} | sh > /dev/null

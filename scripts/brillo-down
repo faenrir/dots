@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+brillo -u150000 -U 5 | brillo -O
+
+dunstify -i brightnesssettings -r 341770 $(brillo)

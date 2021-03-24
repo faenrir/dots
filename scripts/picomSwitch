@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if pgrep -x "picom" &>/dev/null; then
+	xsetroot -bitmap ~/.local/share/backgrounds/bitmap-walls/bw-bgnd/cyber_tile.xbm -bg "#191724" -fg "#3d3f51"
+	pkill picom &
+else
+	picom -f -c -b &
+	setbg
+fi
+
+exit 0

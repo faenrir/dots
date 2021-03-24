@@ -1,0 +1,11 @@
+#!/bin/sh
+
+TOGGLE=/tmp/.toggleRedshift
+
+if [ ! -e $TOGGLE ]; then
+    touch $TOGGLE
+    redshift -P -O 3000
+else
+    rm $TOGGLE
+    redshift -x
+fi

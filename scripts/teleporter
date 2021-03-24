@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# beam me up, scotty!
+# teleport the active window to another selected area
+
+set -e
+
+wglyph=7
+hglyph=16
+border=2
+
+slop | tr 'x+' ' ' | {
+	read w h x y
+	wtp ${x} ${y} $w $h $(pfw)
+}

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+pamixer -d 1
+
+dunstify -i multimedia-volume-control -r 341771 $(pamixer --get-volume)

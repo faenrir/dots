@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+sleep 1;
+file=full-$(date +"%Y-%m-%d-%H:%M")
+import -window root ~/Pictures/Screenshots/"$file".png

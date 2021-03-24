@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# dynamic wallpaper like macOS
+# run it as background service
+
+time=""
+while :
+do
+	hour=$(printf '%(%H)T\n' "-1")
+	
+	if [ $hour -ge 0 -a $hour -le 3 ] || [ $hour -ge 20 ]; then
+		[[ $time != "night" ]] && { 
+			hsetroot -cover ~/.local/share/backgrounds/dynamic/night.jpg
+			time="night"
+		}
+        elif [ $hour -ge 4 -a $hour -le 7 ]; then
+			[[ $time != "sunrise" ]] && { 
+				hsetroot -cover ~/.local/share/backgrounds/dynamic/sunrise.jpg
+			        time="sunrise"
+			}
+	elif [ $hour -ge 8 -a $hour -le 11 ]; then
+			[[ $time != "morning" ]] && { 
+				hsetroot -cover ~/.local/share/backgrounds/dynamic/morning.jpg
+			        time="morning"
+			}
+	elif [ $hour -ge 12 -a $hour -le 15 ]; then
+			[[ $time != "day" ]] && { 
+				hsetroot -cover ~/.local/share/backgrounds/dynamic/day.jpg
+			        time="day"
+			}
+	elif [ $hour -ge 16 -a $hour -le 17 ]; then
+			[[ $time != "afternoon" ]] && { 
+				hsetroot -cover ~/.local/share/backgrounds/dynamic/afternoon.jpg
+			        time="afternoon"
+			}
+	elif [ $hour -ge 18 -a $hour -le 19 ]; then
+			[[ $time != "evening" ]] && { 
+				hsetroot -cover ~/.local/share/backgrounds/dynamic/evening.jpg
+			        time="evening"
+			}
+	fi
+	sleep 4
+done

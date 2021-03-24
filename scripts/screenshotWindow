@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+file=window-$(xwininfo -root -children | grep $(printf '%x\n' $(xdotool getwindowfocus)) | grep -oEi '"[^"]+"' | sed -n '2p')-$(date +"%Y-%m-%d-%H:%M:%S")
+xwd -id $(pfw) | convert xwd:- png:/home/fabian/Pictures/Screenshots/$file.png
