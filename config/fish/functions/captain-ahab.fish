@@ -12,7 +12,7 @@ function remove-docker-images
 	docker rmi (docker images -f "dangling=true" -q)
 end
 
-function CLEAN-THE-FUCKING-DOCKER
+function captain-ahab
 	remove-docker-images
 	echo "Fucking shit, those silly fucking whales eating my fucking disk. I'll show them."
 	docker volume rm (docker volume ls -qf dangling=true)
