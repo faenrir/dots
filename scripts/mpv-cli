@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# example usage:
+# mpv-cli https://youtu.be/5ZWDVhEev40
+# :)
+
+mpv --vo=tct --loop-file $1 2>/dev/null
