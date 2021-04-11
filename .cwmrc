@@ -1,0 +1,136 @@
+# Start from scratch.
+unbind-key all
+
+moveamount 2
+
+# Restore a few default bindings.
+bind-key M-Down window-lower
+bind-key M-Up window-raise
+#bind-key CM-n window-menu-label
+bind-key M-Tab window-cycle-ingroup
+bind-key MS-Tab window-rcycle-ingroup
+bind-key 4-Tab window-cycle-ingroup
+bind-key 4S-Tab window-rcycle-ingroup
+bind-key 4-m window-maximize
+bind-key 4-f window-fullscreen
+bind-key 4-q window-delete
+bind-key 4S-s window-stick
+bind-key 4S-r restart
+bind-key CMS-q quit
+
+bind-key 4S-t window-htile
+
+bind-key 4-Up window-move-up-big
+bind-key 4-Down window-move-down-big
+bind-key 4-Right window-move-right-big
+bind-key 4-Left window-move-left-big
+
+bind-key C4-Up window-move-up
+bind-key C4-Down window-move-down
+bind-key C4-Right window-move-right
+bind-key C4-Left window-move-left
+
+bind-key 4S-Up window-resize-up-big
+bind-key 4S-Down window-resize-down-big
+bind-key 4S-Right window-resize-right-big
+bind-key 4S-Left window-resize-left-big
+
+bind-key C4S-Up window-resize-up
+bind-key C4S-Down window-resize-down
+bind-key C4S-Right window-resize-right
+bind-key C4S-Left window-resize-left
+# WM extra controls
+bind-key 4-b "barSwitch.sh"
+bind-key 4-g "picomSwitch"
+bind-key 4-d "picomTrans.sh"
+bind-key 4-r "rs"
+#bind-key 4-h "teleporter"
+bind-key 4-t "tile.sh"
+bind-key 4-o "snap.sh left"
+bind-key 4-p "snap.sh right"
+bind-key 4-a "snap.sh tl"
+bind-key 4-s "snap.sh tr"
+bind-key 4-z "snap.sh bl"
+bind-key 4-y "snap.sh bl"
+bind-key 4-x "snap.sh br"
+bind-key 4-equal "move -g"
+bind-key 4-minus "move -s"
+bind-key M-Up "skippy-xd-toggle"
+bind-key 4-c "win-minimize"
+
+# Media keys.
+bind-key XF86AudioLowerVolume "pulse-decrease"
+bind-key XF86AudioRaiseVolume "pulse-increase"
+bind-key XF86AudioMute "pulse-mute"
+bind-key XF86MonBrightnessUp "brillo-up"
+bind-key XF86MonBrightnessDown "brillo-down"
+bind-key CM-r "/bin/xrandr --auto"
+bind-key CM-q "xscreensaver-command -lock"
+bind-key C-space "dswitcher"
+bind-key 4-space "rofi-launcher"
+bind-key M-space "rofiMenu.sh"
+bind-key 4-w "rofi -show window"
+# For keyboards without media keys:
+bind-key CMS-Up "/bin/xdotool key --clearmodifiers XF86AudioRaiseVolume"
+bind-key CMS-Down "/bin/xdotool key --clearmodifiers XF86AudioLowerVolume"
+bind-key CMS-Return "/bin/xdotool key --clearmodifiers XF86AudioMute"
+bind-key CMS-Right "/bin/xdotool key --clearmodifiers XF86AudioNext"
+bind-key CMS-Left "/bin/xdotool key --clearmodifiers XF86AudioPrev"
+bind-key CMS-space "/bin/xdotool key --clearmodifiers XF86AudioPlay"
+
+# Application keys.
+bind-key 4-Return "kitty"
+bind-key 4S-c "xclockcat -tiecolor mediumpurple"
+
+# Workspace keys.
+bind-key 4-1 group-only-1
+bind-key 4-2 group-only-2
+bind-key 4-3 group-only-3
+bind-key 4-4 group-only-4
+bind-key 4-5 group-only-5
+bind-key 4-6 group-only-6
+bind-key 4-7 group-only-7
+bind-key 4-8 group-only-8
+bind-key 4-9 group-only-9
+bind-key 4S-1 window-movetogroup-1
+bind-key 4S-2 window-movetogroup-2
+bind-key 4S-3 window-movetogroup-3
+bind-key 4S-4 window-movetogroup-4
+bind-key 4S-5 window-movetogroup-5
+bind-key 4S-6 window-movetogroup-6
+bind-key 4S-7 window-movetogroup-7
+bind-key 4S-8 window-movetogroup-8
+bind-key 4S-9 window-movetogroup-9
+
+# Mouse keys.
+unbind-mouse all    # Remove the click menus
+bind-mouse 4-1      window-move
+bind-mouse 4S-1      window-resize
+bind-mouse 4-3      window-resize
+#bind-mouse "1"      menu-window
+#bind-mouse "3"      menu-cmd
+
+# Layout settings.
+fontname "Monaco:pixelsize=12"
+snapdist 6
+gap 40 8 8 8        # Leave space for status bar
+
+# Application menu
+command kitty kitty
+command firefox firefox
+command brave brave-browser-stable
+
+# Predefined groups (get from xprop).
+#autogroup 1     "kitty"
+#autogroup 2     "Navigator,Firefox,google-chrome,Google-chrome,qutebrowser,brave-browser-stable"
+
+# Inherit current selected group.
+sticky yes
+
+# style
+ignore lemonbar
+borderwidth 2
+color activeborder "#3f51b5"
+color inactiveborder "#080808"
+color groupborder red
+color ungroupborder lightred
