@@ -1,0 +1,2 @@
+#!/bin/bash
+xbps-dgraph -f $1 | dot -Tpng > $1.png
