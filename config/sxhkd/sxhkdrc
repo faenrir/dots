@@ -1,0 +1,120 @@
+#
+# wm independent hotkeys
+#
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+XF86MonBrightnessDown
+	brillo-down
+
+XF86MonBrightnessUp
+	brillo-up
+
+XF86AudioLowerVolume
+	pulse-increase
+
+XF86AudioRaiseVolume
+	pulse-decrease
+
+XF86AudioMute
+	pulse-mute
+
+# terminal emulator
+super + Return
+	kitty
+
+super + shift + Return
+	st
+
+super + e
+	kitty -e ranger
+
+# program launcher
+super + @space
+	rofi-launcher
+
+# duckduckgoRofi
+alt + @space
+	~/.config/rofi/RofiFtw/suggest ddg
+
+# altMenu
+super + shift + @space
+	~/.config/rofi/rofiMenu.sh
+
+Print
+	rofiMenuPrint.sh
+
+# barSwitch
+super + b
+	barSwitch.sh
+
+# picomSwitch
+super + g
+	picomSwitch
+
+# picomTrans
+super + d
+	picomTrans.sh
+
+super + shift + d
+	word-lookup
+
+# redshift
+super + r
+	rs
+
+# lockscreen
+super + shift + l
+	i3lock -B none.jpg
+
+# xcatclock
+super + shift + c
+	xclockcat -tiecolor mediumpurple
+
+# arandr
+alt + shift + p
+	arandr
+
+super + t
+	tile.sh
+
+super + shift + t
+	tileBig.sh
+
+super + o
+	snap.sh left
+
+super + p
+	snap.sh right
+
+super + m
+	snap.sh center
+
+super + a
+	snap.sh tl
+
+super + s
+	snap.sh tr
+
+super + z
+	snap.sh bl
+
+super + x
+	snap.sh br
+
+super + y
+	snap.sh bl
+
+super + equal
+	move -g
+
+super + minus
+	move -s
+
+super + shift + m
+	move_windows.sh
+
+super + w
+	teleporter
