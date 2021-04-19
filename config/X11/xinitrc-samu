@@ -11,7 +11,6 @@ mons -s
 xcalib ~/.config/icc/xps9500fhd.icm
 xsettingsd &
 echo "" > ~/.local/bin/wm/snap-safe
-#echo '1' > ~/.local/bin/wm/currentWs
 libinput-gestures-setup restart
 brillo -I
 sudo intel-undervolt apply
@@ -35,4 +34,5 @@ eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 #pipewire &
 start-pulseaudio-x11 &
+sxhkd &
 exec dbus-run-session -- samu

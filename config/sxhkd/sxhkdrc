@@ -4,7 +4,7 @@
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+	pkill sxhkd && sxhkd
 
 XF86MonBrightnessDown
 	brillo-down
@@ -13,15 +13,14 @@ XF86MonBrightnessUp
 	brillo-up
 
 XF86AudioLowerVolume
-	pulse-increase
+	pulse-decrease
 
 XF86AudioRaiseVolume
-	pulse-decrease
+	pulse-increase
 
 XF86AudioMute
 	pulse-mute
 
-# terminal emulator
 super + Return
 	kitty
 
@@ -31,49 +30,39 @@ super + shift + Return
 super + e
 	kitty -e ranger
 
-# program launcher
 super + @space
 	rofi-launcher
 
-# duckduckgoRofi
 alt + @space
 	~/.config/rofi/RofiFtw/suggest ddg
 
-# altMenu
 super + shift + @space
 	~/.config/rofi/rofiMenu.sh
 
 Print
 	rofiMenuPrint.sh
 
-# barSwitch
 super + b
 	barSwitch.sh
 
-# picomSwitch
 super + g
 	picomSwitch
 
-# picomTrans
 super + d
 	picomTrans.sh
 
 super + shift + d
 	word-lookup
 
-# redshift
 super + r
 	rs
 
-# lockscreen
 super + shift + l
 	i3lock -B none.jpg
 
-# xcatclock
 super + shift + c
 	xclockcat -tiecolor mediumpurple
 
-# arandr
 alt + shift + p
 	arandr
 
