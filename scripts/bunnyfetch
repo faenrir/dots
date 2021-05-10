@@ -5,7 +5,7 @@ clear
 	    [34;1mos[m:     ${PRETTY_NAME:-Linux}
    \e[0m(\ /)    [34;1m[29mshell[m:  ${SHELL:-/bin/sh}
    \e[0m( . .)   [34;1m[29mpkgs[m:   $(xbps-query -l | wc -l)
-   \e[0mc([31m\"\e[0m)([31m\"\e[0m)  [34;1muptime[m: ${u:-0m}
+   \e[0mc([31m\"\e[0m)([31m\"\e[0m)  [34;1muptime[m:${u:-0m}
             [34;1mmemory[m: ${z:-?}MB / ${y:-?}MB
             [34;1mkernel[m: ${k:-linux}
 ") 2>/dev/null
