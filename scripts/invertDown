@@ -1,0 +1,10 @@
+#!/bin/bash
+
+winlist="$(mktemp)"
+wid -a $(atomx WM_CLASS $(pfw)) > "$winlist"
+
+while read -r wid; do
+	chwso -l "$wid"
+done < "$winlist"
+
+rm "$winlist"

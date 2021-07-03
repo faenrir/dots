@@ -1,0 +1,18 @@
+#!/bin/bash
+clear
+
+export YLW="\e[33m"
+export PUR="\e[35m"
+export RST="\e[0m"
+export RED="\e[31m"
+
+
+(read -r _ _ k _ </proc/version;IFS=. read -r s _ </proc/uptime;d=$((s/60/60/24));h=$((s/60/60%24));m=$((s/60%60));[ "$d" = 0 ]||u="$u ${d}d";[ "$h" = 0 ]||u=$u\ ${h}h;[ "$m" = 0 ]||u=$u\ ${m}m;. /etc/os-release;while IFS=: read -r a b;do b=${b%kB};case $a in MemT*)_=$((z+=b));_=$((y=b));; Shmem)_=$((z+=b));;MemF*|Buf*|Cac*|SR*)_=$((z-=b));esac;done </proc/meminfo;_=$((z/=1024));_=$((y/=1024));printf '%b\n' "
+                [33;1m${USER:-$(id -un)}[m@[33;1m$(hostname)[m
+${YLW}  \.-----./     [34;1mos[m:     ${PRETTY_NAME:-Linux}
+${YLW}  / ^ ^ ^ \ ${RST}    [34;1mkernel[m: ${k:-linux}
+(${PUR}o${RST})(${PUR}o${RST})${YLW} ^ ^ |_/|${RST} [34;1m[29mshell[m:  ${SHELL:-/bin/sh}
+ ${RED}{}${RST} ${YLW}^ ^ > ^| \| [34;1m[29mpkgs[m:   $(xbps-query -l | wc -l)
+ ${YLW} \^ ^ ^ ^/     [34;1muptime[m:${u:-0m}
+  ${YLW} /-----\\ ${RST}     [34;1mmemory[m: ${z:-?}MB / ${y:-?}MB
+") 2>/dev/null

@@ -1,0 +1,10 @@
+#!/bin/bash
+if pgrep -x "rainbow.sh" &>/dev/null; then
+	dunstify "rainbow mode off!"
+	pkill rainbow.sh
+else
+	dunstify "rainbow mode on!"
+	rainbow.sh &
+fi
+
+exit 0
